@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Repeater Pro | Modern Repeater Tool</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #0ea5e9;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --glass-effect: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            position: relative;
+            backdrop-filter: blur(10px);
+            background: var(--glass-effect);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--card-shadow);
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(99, 102, 241, 0.15);
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.2rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: var(--glass-effect);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 0.85rem 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+            background-color: white;
+        }
+        
+        textarea.input-field {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 1.8rem;
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.85rem 1.8rem;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            flex: 3;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            color: var(--gray);
+            flex: 1;
+        }
+        
+        .btn-reset:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(100, 116, 139, 0.2);
+            color: var(--dark);
+        }
+        
+        .btn-copy {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+        
+        .btn-copy:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .result-container {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .result-content {
+            padding: 1.8rem;
+            background-color: rgba(248, 250, 252, 0.7);
+            border-radius: 12px;
+            border: 2px dashed #cbd5e1;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            backdrop-filter: blur(5px);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--info), var(--primary));
+            color: white;
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            padding: 1.5rem 0;
+            color: var(--gray);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(203, 213, 225, 0.5);
+            backdrop-filter: blur(5px);
+            background: var(--glass-effect);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .animate {
+            animation: pulse 0.4s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Loading indicator */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 30px;
+            background: var(--success);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            background: rgba(16, 185, 129, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            header {
+                padding: 1.2rem;
+                margin-bottom: 2rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                padding: 1.8rem;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles background -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Text Repeater Pro</h1>
+            <p class="subtitle">Alat canggih untuk mengulang teks dengan berbagai opsi pemisah</p>
+        </header>
+        
+        <div class="card">
+            <div class="form-group">
+                <label for="text">Masukkan Teks</label>
+                <textarea id="text" class="input-field" placeholder="Ketik atau tempel teks yang ingin diulang di sini..."></textarea>
+            </div>
+            
+            <div class="grid">
+                <div class="form-group">
+                    <label for="repeat">Jumlah Pengulangan</label>
+                    <input type="number" id="repeat" class="input-field" min="1" value="5" placeholder="Contoh: 10">
+                </div>
+                
+                <div class="form-group">
+                    <label for="separator">Pemisah (Opsional)</label>
+                    <input type="text" id="separator" class="input-field" placeholder="Contoh: , atau spasi atau baris baru">
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button id="generate-btn" class="btn btn-primary" onclick="repeatText()">
+                    <span>Generate Teks</span>
+                </button>
+                <button id="reset-btn" class="btn btn-reset" onclick="resetForm()">
+                    <span>Reset</span>
+                </button>
+            </div>
+        </div>
+        
+        <div id="result-container" class="card result-container">
+            <div class="result-header">
+                <h3 class="result-title">Hasil Pengulangan</h3>
+                <span id="repeat-count" class="badge">0 pengulangan</span>
+            </div>
+            <div id="result" class="result-content"></div>
+            <button id="copy-btn" class="btn btn-copy" onclick="copyResult()">
+                <span>Salin ke Clipboard</span>
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p>Text Repeater Pro &copy; 2023 | Alat praktis untuk mengulang teks dengan desain modern</p>
+        </div>
+    </div>
+    
+    <div id="toast" class="toast">Teks berhasil disalin!</div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 20 : 40;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 5 and 15px
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration between 20s and 40s
+                const duration = Math.random() * 20 + 20;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.4 + 0.1;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Initialize particles when page loads
+        window.addEventListener('load', createParticles);
+        
+        function repeatText() {
+            const text = document.getElementById('text').value.trim();
+            const repeatCount = parseInt(document.getElementById('repeat').value);
+            const separator = document.getElementById('separator').value;
+            
+            if (!text) {
+                showAlert('Silakan masukkan teks terlebih dahulu!', 'danger');
+                return;
+            }
+            
+            if (isNaN(repeatCount) || repeatCount < 1) {
+                showAlert('Jumlah pengulangan harus berupa angka dan minimal 1!', 'danger');
+                return;
+            }
+            
+            // Show loading indicator
+            const generateBtn = document.getElementById('generate-btn');
+            generateBtn.innerHTML = '<div class="loading"></div><span>Memproses...</span>';
+            generateBtn.disabled = true;
+            
+            // Use setTimeout to give UI time to update before heavy processing
+            setTimeout(() => {
+                let result = '';
+                for (let i = 0; i < repeatCount; i++) {
+                    result += text;
+                    if (i < repeatCount - 1 && separator) {
+                        result += separator;
+                    }
+                }
+                
+                document.getElementById('result').textContent = result;
+                document.getElementById('repeat-count').textContent = `${repeatCount} pengulangan`;
+                
+                const resultContainer = document.getElementById('result-container');
+                resultContainer.style.display = 'block';
+                
+                // Reset button state
+                generateBtn.innerHTML = '<span>Generate Teks</span>';
+                generateBtn.disabled = false;
+                
+                // Add animation to result container
+                resultContainer.classList.add('animate');
+                setTimeout(() => {
+                    resultContainer.classList.remove('animate');
+                }, 400);
+                
+                // Scroll to result with a slight delay for better UX
+                setTimeout(() => {
+                    resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 300);
+            }, 300);
+        }
+        
+        function copyResult() {
+            const resultText = document.getElementById('result').textContent;
+            const copyBtn = document.getElementById('copy-btn');
+            
+            if (!resultText) {
+                showAlert('Tidak ada teks untuk disalin!', 'danger');
+                return;
+            }
+            
+            copyBtn.innerHTML = '<div class="loading"></div><span>Menyalin...</span>';
+            
+            navigator.clipboard.writeText(resultText).then(() => {
+                // Show toast notification
+                showToast('Teks berhasil disalin!');
+                
+                // Reset button text
+                copyBtn.innerHTML = '<span>Tersalin!</span>';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<span>Salin ke Clipboard</span>';
+                }, 2000);
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = resultText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                // Show toast notification
+                showToast('Teks berhasil disalin! (fallback)');
+                
+                // Reset button text
+                copyBtn.innerHTML = '<span>Tersalin!</span>';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<span>Salin ke Clipboard</span>';
+                }, 2000);
+            });
+        }
+        
+        function resetForm() {
+            // Reset all input fields
+            document.getElementById('text').value = '';
+            document.getElementById('repeat').value = '5';
+            document.getElementById('separator').value = '';
+            
+            // Hide result container
+            document.getElementById('result-container').style.display = 'none';
+            
+            // Add animation to reset button
+            const resetBtn = document.getElementById('reset-btn');
+            resetBtn.classList.add('animate');
+            setTimeout(() => {
+                resetBtn.classList.remove('animate');
+            }, 400);
+            
+            // Focus on text input
+            document.getElementById('text').focus();
+        }
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+        
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alert.style.position = 'fixed';
+            alert.style.top = '20px';
+            alert.style.left = '50%';
+            alert.style.transform = 'translateX(-50%)';
+            alert.style.padding = '12px 24px';
+            alert.style.backgroundColor = type === 'danger' ? 'rgba(239, 68, 68, 0.9)' : 'rgba(16, 185, 129, 0.9)';
+            alert.style.color = 'white';
+            alert.style.borderRadius = '12px';
+            alert.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.1)';
+            alert.style.zIndex = '1000';
+            alert.style.backdropFilter = 'blur(5px)';
+            alert.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+            alert.style.animation = 'fadeIn 0.3s ease';
+            
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(alert);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Add animation to buttons
+        document.getElementById('generate-btn').addEventListener('click', function() {
+            if (!this.disabled) {
+                this.classList.add('animate');
+                setTimeout(() => {
+                    this.classList.remove('animate');
+                }, 400);
+            }
+        });
+        
+        // Check for Enter key press in number input
+        document.getElementById('repeat').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                repeatText();
+            }
+        });
+        
+        // Check for Enter key press in separator input
+        document.getElementById('separator').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                repeatText();
+            }
+        });
+    </script>
+</body>
+</html>
